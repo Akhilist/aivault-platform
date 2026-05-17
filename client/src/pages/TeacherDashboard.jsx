@@ -71,7 +71,8 @@ export default function TeacherDashboard() {
         background: "white",
         border: "1px solid #D3D1C7",
         borderRadius: "12px",
-        padding: "20px"
+        padding: "20px",
+        marginBottom: "16px"
       }}>
         <h2 style={{
           fontFamily: "'Lora', serif",
@@ -82,7 +83,7 @@ export default function TeacherDashboard() {
         }}>Active & Upcoming Exams</h2>
 
         {[
-          { name: "Data Structures — Lab",     batch: "S3 MCA · 62 students", status: "Live",     sc: "#3B6D11", sb: "#EAF3DE" },
+          { name: "Data Structures — Lab",      batch: "S3 MCA · 62 students", status: "Live",     sc: "#3B6D11", sb: "#EAF3DE" },
           { name: "Operating Systems — Theory", batch: "S5 MCA · 58 students", status: "Upcoming", sc: "#185FA5", sb: "#E6F1FB" },
           { name: "Python Programming",         batch: "S1 MCA · 74 students", status: "Grading",  sc: "#854F0B", sb: "#FAEEDA" },
         ].map((exam) => (
@@ -109,6 +110,50 @@ export default function TeacherDashboard() {
               background: exam.sb,
               color: exam.sc
             }}>{exam.status}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Recent activity */}
+      <div style={{
+        background: "white",
+        border: "1px solid #D3D1C7",
+        borderRadius: "12px",
+        padding: "20px"
+      }}>
+        <h2 style={{
+          fontFamily: "'Lora', serif",
+          fontSize: "16px",
+          fontWeight: "600",
+          color: "#2C2C2A",
+          margin: "0 0 16px"
+        }}>Recent Activity</h2>
+
+        {[
+          { icon: "ti-check",          bg: "#EAF3DE", color: "#3B6D11", text: "Arjun K. submitted code lab record",  time: "12 minutes ago" },
+          { icon: "ti-brain",          bg: "#E6F1FB", color: "#185FA5", text: "AI graded 18 descriptive answers",    time: "34 minutes ago" },
+          { icon: "ti-alert-triangle", bg: "#FAEEDA", color: "#854F0B", text: "Plagiarism flag on 2 submissions",    time: "1 hour ago" },
+        ].map((a) => (
+          <div key={a.text} style={{
+            display: "flex",
+            gap: "12px",
+            padding: "10px 0",
+            borderBottom: "1px solid #F1EFE8",
+            alignItems: "flex-start"
+          }}>
+            <div style={{
+              width: "32px", height: "32px",
+              borderRadius: "8px",
+              background: a.bg,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              flexShrink: 0
+            }}>
+              <i className={`ti ${a.icon}`} style={{ fontSize: "15px", color: a.color }}></i>
+            </div>
+            <div>
+              <div style={{ fontSize: "13px", color: "#2C2C2A" }}>{a.text}</div>
+              <div style={{ fontSize: "11.5px", color: "#B4B2A9", marginTop: "2px" }}>{a.time}</div>
+            </div>
           </div>
         ))}
       </div>

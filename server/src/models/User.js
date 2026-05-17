@@ -6,18 +6,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     email: {
       type: String,
       required: true,
       unique: true,
     },
-
     password: {
       type: String,
       required: true,
     },
-
     role: {
       type: String,
       enum: [
@@ -29,6 +26,32 @@ const userSchema = new mongoose.Schema(
         "student",
       ],
       default: "student",
+    },
+    institutionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Institution",
+      default: null,
+    },
+    departmentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
+      default: null,
+    },
+    rollNumber: {
+      type: String,
+      default: null,
+    },
+    batch: {
+      type: String,
+      default: null,
+    },
+    semester: {
+      type: Number,
+      default: null,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   {

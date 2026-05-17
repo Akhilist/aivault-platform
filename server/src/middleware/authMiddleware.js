@@ -9,39 +9,26 @@ const protect = (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1]
-
-      const decoded = jwt.verify(token, "supersecretkey")
-
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
       req.user = decoded
-
       next()
     } catch (error) {
-      return res.status(401).json({
-        message: "Invalid token",
-      })
+      return res.status(401).json({ message: "Invalid token" })
     }
   }
 
   if (!token) {
-    return res.status(401).json({
-      message: "No token provided",
-    })
+    return res.status(401).json({ message: "No token provided" })
   }
 }
 
 const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res.status(403).json({
-        message: "Access denied",
-      })
+      return res.status(403).json({ message: "Access denied" })
     }
-
     next()
   }
 }
 
-module.exports = {
-  protect,
-  authorizeRoles,
-}
+module.exports = { protect, authorizeRoles }
