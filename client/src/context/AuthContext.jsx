@@ -1,11 +1,16 @@
 import { createContext, useContext, useState } from "react"
-import { getToken, getUser, logout as logoutService } from "../authService"
 
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(getToken())
-  const [user, setUser] = useState(getUser())
+  const [token, setToken] = useState(localStorage.getItem("token"))
+  const [user, setUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user"))
+    } catch {
+      return null
+    }
+  })
 
   const login = (data) => {
     localStorage.setItem("token", data.token)
@@ -15,7 +20,8 @@ export function AuthProvider({ children }) {
   }
 
   const logout = () => {
-    logoutService()
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
     setToken(null)
     setUser(null)
   }

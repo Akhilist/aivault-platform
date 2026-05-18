@@ -3,14 +3,13 @@ import { AuthProvider } from "./context/AuthContext"
 import ProtectedRoute from "./ProtectedRoute"
 
 import Login from "./Login"
-
-// Dashboards
 import SuperAdminDashboard from "./pages/SuperAdminDashboard"
 import InstituteAdminDashboard from "./pages/InstituteAdminDashboard"
 import HODDashboard from "./pages/HODDashboard"
 import ExamControllerDashboard from "./pages/ExamControllerDashboard"
 import TeacherDashboard from "./pages/TeacherDashboard"
 import StudentDashboard from "./pages/StudentDashboard"
+import QuestionBank from "./pages/QuestionBank"
 
 function App() {
   return (
@@ -52,6 +51,12 @@ function App() {
           <Route path="/dashboard/student" element={
             <ProtectedRoute allowedRoles={["student"]}>
               <StudentDashboard />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/questions" element={
+            <ProtectedRoute allowedRoles={["super_admin", "institute_admin", "hod", "exam_controller", "teacher"]}>
+              <QuestionBank />
             </ProtectedRoute>
           } />
 
