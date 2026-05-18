@@ -11,6 +11,7 @@ import TeacherDashboard from "./pages/TeacherDashboard"
 import StudentDashboard from "./pages/StudentDashboard"
 import QuestionBank from "./pages/QuestionBank"
 import ExamManagement from "./pages/ExamManagement"
+import TakeExam from "./pages/TakeExam"
 
 function App() {
   return (
@@ -64,6 +65,12 @@ function App() {
           <Route path="/exams" element={
             <ProtectedRoute allowedRoles={["super_admin", "institute_admin", "hod", "exam_controller", "teacher", "student"]}>
               <ExamManagement />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/exam/take/:examId" element={
+            <ProtectedRoute allowedRoles={["student"]}>
+              <TakeExam />
             </ProtectedRoute>
           } />
 

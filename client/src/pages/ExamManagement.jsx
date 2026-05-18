@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import DashboardLayout from "../layouts/DashboardLayout"
 import { useAuth } from "../context/AuthContext"
 import axios from "axios"
@@ -39,6 +40,7 @@ const EMPTY_FORM = {
 
 export default function ExamManagement() {
   const { user, token } = useAuth()
+  const navigate = useNavigate()
   const headers = { Authorization: `Bearer ${token}` }
 
   const [exams, setExams] = useState([])
@@ -196,7 +198,15 @@ export default function ExamManagement() {
     if (already) return
     setForm({
       ...form,
-      questions: [...form.questions, { questionId: q._id, marks: q.marks, questionText: q.text, questionType: q.type }]
+      questions: [
+        ...form.questions,
+        {
+          questionId:   q._id,
+          marks:        q.marks,
+          questionText: q.text,
+          questionType: q.type,
+        }
+      ]
     })
   }
 
@@ -253,7 +263,7 @@ export default function ExamManagement() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
         <div>
           <h1 style={{ fontFamily: "'Lora', serif", fontSize: "24px", fontWeight: "600", color: "#2C2C2A", margin: "0 0 4px" }}>
-            Exam Management
+            {user?.role === "student" ? "My Exams" : "Exam Management"}
           </h1>
           <p style={{ fontSize: "13px", color: "#888780", margin: 0 }}>
             {exams.length} exams total
@@ -281,7 +291,7 @@ export default function ExamManagement() {
       ) : exams.length === 0 ? (
         <div style={{ ...card, textAlign: "center", padding: "48px", color: "#888780" }}>
           <i className="ti ti-file-text" style={{ fontSize: "40px", marginBottom: "12px", display: "block" }}></i>
-          No exams yet. Click Create Exam to get started.
+          {user?.role === "student" ? "No live exams right now." : "No exams yet. Click Create Exam to get started."}
         </div>
       ) : (
         exams.map((exam) => (
@@ -331,6 +341,17 @@ export default function ExamManagement() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "6px", flexShrink: 0 }}>
+
+                {/* Student actions */}
+                {user?.role === "student" && exam.status === "live" && (
+                  <button
+                    onClick={() => navigate(`/exam/take/${exam._id}`)}
+                    style={btn("#EAF3DE", "#3B6D11")}
+                  >
+                    Start Exam
+                  </button>
+                )}
+
                 {/* Teacher actions */}
                 {user?.role === "teacher" && exam.status === "draft" && (
                   <>
@@ -350,7 +371,7 @@ export default function ExamManagement() {
 
                 {/* Exam Controller actions */}
                 {user?.role === "exam_controller" && exam.status === "approved" && (
-                  <button onClick={() => { setScheduleId(exam._id) }} style={btn("#E6F1FB", "#185FA5")}>Schedule</button>
+                  <button onClick={() => setScheduleId(exam._id)} style={btn("#E6F1FB", "#185FA5")}>Schedule</button>
                 )}
                 {user?.role === "exam_controller" && exam.status === "scheduled" && (
                   <button onClick={() => handleGoLive(exam._id)} style={btn("#EAF3DE", "#3B6D11")}>Go Live</button>
@@ -447,7 +468,6 @@ export default function ExamManagement() {
               Shuffle questions for each student
             </label>
 
-            {/* Questions section */}
             <div style={{ marginTop: "16px", marginBottom: "10px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
                 <div style={{ fontSize: "13px", fontWeight: "500", color: "#2C2C2A" }}>
