@@ -5,6 +5,7 @@ const connectDB = require("./config/db")
 const authRoutes = require("./routes/authRoutes")
 const testRoutes = require("./routes/testRoutes")
 const questionRoutes = require("./routes/questionRoutes")
+const examRoutes = require("./routes/examRoutes")
 
 dotenv.config()
 connectDB()
@@ -17,6 +18,7 @@ app.use(express.json())
 app.use("/api/auth", authRoutes)
 app.use("/api/test", testRoutes)
 app.use("/api/questions", questionRoutes)
+app.use("/api/exams", examRoutes)
 
 app.get("/", (req, res) => {
   res.json({ message: "AIVault API Running" })

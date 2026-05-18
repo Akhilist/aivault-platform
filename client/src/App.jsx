@@ -10,6 +10,7 @@ import ExamControllerDashboard from "./pages/ExamControllerDashboard"
 import TeacherDashboard from "./pages/TeacherDashboard"
 import StudentDashboard from "./pages/StudentDashboard"
 import QuestionBank from "./pages/QuestionBank"
+import ExamManagement from "./pages/ExamManagement"
 
 function App() {
   return (
@@ -57,6 +58,12 @@ function App() {
           <Route path="/questions" element={
             <ProtectedRoute allowedRoles={["super_admin", "institute_admin", "hod", "exam_controller", "teacher"]}>
               <QuestionBank />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/exams" element={
+            <ProtectedRoute allowedRoles={["super_admin", "institute_admin", "hod", "exam_controller", "teacher", "student"]}>
+              <ExamManagement />
             </ProtectedRoute>
           } />
 
