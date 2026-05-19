@@ -13,6 +13,7 @@ import QuestionBank from "./pages/QuestionBank"
 import ExamManagement from "./pages/ExamManagement"
 import TakeExam from "./pages/TakeExam"
 import CodeLab from "./pages/CodeLab"
+import VersionControl from "./pages/VersionControl"
 
 function App() {
   return (
@@ -78,6 +79,12 @@ function App() {
           <Route path="/codelab" element={
             <ProtectedRoute allowedRoles={["student", "teacher", "hod"]}>
               <CodeLab />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/version-control" element={
+            <ProtectedRoute allowedRoles={["student", "teacher", "hod"]}>
+              <VersionControl />
             </ProtectedRoute>
           } />
 
