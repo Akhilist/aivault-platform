@@ -14,6 +14,7 @@ import ExamManagement from "./pages/ExamManagement"
 import TakeExam from "./pages/TakeExam"
 import CodeLab from "./pages/CodeLab"
 import VersionControl from "./pages/VersionControl"
+import AIAnalysis from "./pages/AIAnalysis"
 
 function App() {
   return (
@@ -85,6 +86,12 @@ function App() {
           <Route path="/version-control" element={
             <ProtectedRoute allowedRoles={["student", "teacher", "hod"]}>
               <VersionControl />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/ai-analysis" element={
+            <ProtectedRoute allowedRoles={["teacher", "hod", "exam_controller"]}>
+              <AIAnalysis />
             </ProtectedRoute>
           } />
 

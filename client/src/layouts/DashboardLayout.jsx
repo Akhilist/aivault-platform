@@ -46,6 +46,7 @@ const NAV_ITEMS = {
     { icon: "ti-database",         label: "Question Bank",  path: "/questions" },
     { icon: "ti-code",             label: "Code Lab",       path: "/codelab" },
     { icon: "ti-git-commit",       label: "Version Control",path: "/version-control" },
+    { icon: "ti-brain",            label: "AI Analysis",    path: "/ai-analysis" },
     { icon: "ti-report-analytics", label: "Analytics",      path: "/analytics" },
     { icon: "ti-message-circle",   label: "Feedback",       path: "/feedback" },
     { icon: "ti-device-tv",        label: "Live Poll",      path: "/poll" },
