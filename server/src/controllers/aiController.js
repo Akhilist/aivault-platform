@@ -1,20 +1,24 @@
 const axios = require("axios")
 
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
-const callGemini = async (prompt) => {
+const callGroq = async (prompt) => {
   const response = await axios.post(
-    `${GEMINI_API_URL}?key=${process.env.GEMINI_API_KEY}`,
+    GROQ_API_URL,
     {
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.3,
-        maxOutputTokens: 1000,
-      },
+      model: "llama-3.3-70b-versatile",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.3,
+      max_tokens: 1000,
     },
-    { headers: { "Content-Type": "application/json" } }
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+      },
+    }
   )
-  return response.data.candidates[0].content.parts[0].text
+  return response.data.choices[0].message.content
 }
 
 // Grade a descriptive answer
@@ -43,7 +47,7 @@ Instructions:
 - Respond ONLY in this exact JSON format with no extra text:
 {"score": <number>, "justification": "<string>", "feedback": "<string>"}`
 
-    const result = await callGemini(prompt)
+    const result = await callGroq(prompt)
 
     let parsed
     try {
@@ -55,7 +59,7 @@ Instructions:
 
     res.json({ success: true, ...parsed })
   } catch (error) {
-    console.error("gradeAnswer error:", error.message)
+    console.error("gradeAnswer error:", error.message, error.response?.data)
     res.status(500).json({ message: "AI grading failed", error: error.message })
   }
 }
@@ -97,7 +101,7 @@ Instructions:
   "summary": "<overall summary of findings>"
 }`
 
-    const result = await callGemini(prompt)
+    const result = await callGroq(prompt)
 
     let parsed
     try {
@@ -148,7 +152,7 @@ Instructions:
   "spaceComplexity": "<if identifiable>"
 }`
 
-    const result = await callGemini(prompt)
+    const result = await callGroq(prompt)
 
     let parsed
     try {
@@ -195,7 +199,7 @@ Instructions:
   "summary": "<2-3 sentence overall summary>"
 }`
 
-    const result = await callGemini(prompt)
+    const result = await callGroq(prompt)
 
     let parsed
     try {
@@ -243,7 +247,7 @@ Instructions:
   ]
 }`
 
-    const result = await callGemini(prompt)
+    const result = await callGroq(prompt)
 
     let parsed
     try {

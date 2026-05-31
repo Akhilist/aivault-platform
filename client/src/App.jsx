@@ -13,6 +13,7 @@ import QuestionBank from "./pages/QuestionBank"
 import ExamManagement from "./pages/ExamManagement"
 import TakeExam from "./pages/TakeExam"
 import CodeLab from "./pages/CodeLab"
+import GradingPanel from "./pages/GradingPanel"
 import VersionControl from "./pages/VersionControl"
 import AIAnalysis from "./pages/AIAnalysis"
 
@@ -94,6 +95,12 @@ function App() {
               <AIAnalysis />
             </ProtectedRoute>
           } />
+
+          <Route path="/grading/:examId" element={
+           <ProtectedRoute allowedRoles={["teacher", "hod", "exam_controller"]}>
+            <GradingPanel />
+          </ProtectedRoute>
+} />
 
         </Routes>
       </BrowserRouter>

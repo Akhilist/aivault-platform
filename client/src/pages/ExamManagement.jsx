@@ -352,13 +352,21 @@ export default function ExamManagement() {
                   </button>
                 )}
 
-                {/* Teacher actions */}
                 {user?.role === "teacher" && exam.status === "draft" && (
                   <>
-                    <button onClick={() => handleEdit(exam)} style={btn("#F1EFE8", "#2C2C2A")}>Edit</button>
-                    <button onClick={() => handleSubmitForApproval(exam._id)} style={btn("#EEEDFE", "#534AB7")}>Submit</button>
-                    <button onClick={() => handleDelete(exam._id)} style={btn("#FAECE7", "#993C1D")}>Delete</button>
+                    <button onClick={() => handleEdit(exam)} style={btn("#F1EFE8", "#2C2C2A", false)}>Edit</button>
+                    <button onClick={() => handleSubmitForApproval(exam._id)} style={btn("#EEEDFE", "#534AB7", false)}>Submit</button>
+                    <button onClick={() => handleDelete(exam._id)} style={btn("#FAECE7", "#993C1D", false)}>Delete</button>
                   </>
+                )}
+
+                {user?.role === "teacher" && exam.status === "closed" && (
+                  <button
+                    onClick={() => navigate(`/grading/${exam._id}`)}
+                    style={btn("#EEEDFE", "#534AB7", false)}
+                  >
+                    Grade
+                  </button>
                 )}
 
                 {/* HOD actions */}

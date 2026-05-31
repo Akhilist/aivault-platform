@@ -12,6 +12,7 @@ export default function TakeExam() {
   const headers = { Authorization: `Bearer ${token}` }
 
   const [exam, setExam] = useState(null)
+  const [submission, setSubmission] = useState(null)
   const [answers, setAnswers] = useState({})
   const [timeLeft, setTimeLeft] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -23,34 +24,94 @@ export default function TakeExam() {
   const timerRef = useRef(null)
   const violationRef = useRef(0)
   const submittedRef = useRef(false)
+  const submissionRef = useRef(null)
+  const autoSaveRef = useRef(null)
 
+  // fetch exam and start submission
   useEffect(() => {
-    const fetchExam = async () => {
+    const init = async () => {
       try {
-        const res = await axios.get(`${API}/exams/${examId}`, { headers })
-        setExam(res.data.exam)
-        setTimeLeft(res.data.exam.duration * 60)
+        const examRes = await axios.get(`${API}/exams/${examId}`, { headers })
+        setExam(examRes.data.exam)
+        setTimeLeft(examRes.data.exam.duration * 60)
+
+        const subRes = await axios.post(`${API}/submissions/start`, { examId }, { headers })
+        setSubmission(subRes.data.submission)
+        submissionRef.current = subRes.data.submission
+
+        // load any existing answers
+        if (subRes.data.submission.answers) {
+          const existing = {}
+          subRes.data.submission.answers.forEach(a => {
+            if (a.answer) existing[a.questionId] = a.answer
+          })
+          setAnswers(existing)
+        }
       } catch (err) {
-        alert("Failed to load exam")
+        alert(err.response?.data?.message || "Failed to load exam")
         navigate("/exams")
       } finally {
         setLoading(false)
       }
     }
-    fetchExam()
+    init()
   }, [examId])
+
+  // auto save every 30 seconds
+  useEffect(() => {
+    if (!submission || submitted) return
+    autoSaveRef.current = setInterval(async () => {
+      if (submittedRef.current) return
+      try {
+        const answersArray = Object.entries(answers).map(([questionId, answer]) => ({
+          questionId,
+          answer,
+        }))
+        await axios.post(`${API}/submissions/save`, {
+          submissionId: submissionRef.current?._id,
+          answers: answersArray,
+        }, { headers })
+      } catch (err) {
+        console.error("Auto save failed:", err.message)
+      }
+    }, 30000)
+    return () => clearInterval(autoSaveRef.current)
+  }, [submission, submitted, answers])
 
   const handleSubmit = useCallback(async (auto = false) => {
     if (submittedRef.current) return
     if (!auto && !window.confirm("Are you sure you want to submit?")) return
+
     submittedRef.current = true
     setSubmitted(true)
     clearInterval(timerRef.current)
-    if (document.fullscreenElement) document.exitFullscreen()
-    alert(auto ? "Time is up! Exam auto-submitted." : "Exam submitted successfully!")
-    navigate("/exams")
-  }, [navigate])
+    clearInterval(autoSaveRef.current)
 
+    if (document.fullscreenElement) document.exitFullscreen()
+
+    try {
+      const answersArray = Object.entries(answers).map(([questionId, answer]) => ({
+        questionId,
+        answer,
+      }))
+
+      await axios.post(`${API}/submissions/submit`, {
+        submissionId: submissionRef.current?._id,
+        answers: answersArray,
+        violations: violationRef.current,
+        autoSubmitted: auto,
+      }, { headers })
+
+      alert(auto ? "Time is up! Exam auto-submitted." : "Exam submitted successfully!")
+    } catch (err) {
+      console.error("Submit failed:", err.message)
+      alert("Exam submitted!")
+    }
+
+    navigate("/exams")
+  }, [answers, navigate])
+
+  // timer
   useEffect(() => {
     if (!exam || submitted) return
     timerRef.current = setInterval(() => {
@@ -78,6 +139,14 @@ export default function TakeExam() {
     if (submittedRef.current) return
     violationRef.current += 1
     setViolations(violationRef.current)
+
+    // log to backend
+    if (submissionRef.current?._id) {
+      axios.post(`${API}/submissions/violation`, {
+        submissionId: submissionRef.current._id,
+      }, { headers }).catch(err => console.error("Violation log failed:", err.message))
+    }
+
     if (violationRef.current >= 4) {
       setWarningMsg("")
       handleSubmit(true)
@@ -199,7 +268,8 @@ export default function TakeExam() {
             Tab switching and app switching will be detected<br />
             Copy paste and right click are disabled<br />
             Alt Tab and Ctrl Tab are blocked<br />
-            4 violations will auto-submit your exam
+            4 violations will auto-submit your exam<br />
+            Answers are auto-saved every 30 seconds
           </div>
         </div>
 
@@ -313,6 +383,10 @@ export default function TakeExam() {
                 Not answered
               </div>
             </div>
+
+            <div style={{ marginTop: "16px", paddingTop: "12px", borderTop: "1px solid #D3D1C7", fontSize: "11.5px", color: "#888780" }}>
+              {Object.keys(answers).filter(k => answers[k]).length} of {questions.length} answered
+            </div>
           </div>
         </div>
 
@@ -350,7 +424,6 @@ export default function TakeExam() {
                         color: selected ? "#185FA5" : "#2C2C2A",
                         cursor: "pointer",
                         fontSize: "14px",
-                        transition: "all 0.15s",
                         display: "flex",
                         alignItems: "center",
                         gap: "10px",
@@ -373,7 +446,7 @@ export default function TakeExam() {
               </div>
             )}
 
-            {/* Short / Long answer */}
+            {/* Short / Long */}
             {(questionData?.type === "short" || questionData?.type === "long") && (
               <textarea
                 placeholder={questionData?.type === "short" ? "Write your answer here (2-3 sentences)..." : "Write your detailed answer here..."}
@@ -471,10 +544,6 @@ export default function TakeExam() {
             >
               Previous
             </button>
-
-            <div style={{ fontSize: "13px", color: "#888780" }}>
-              {Object.keys(answers).length} of {questions.length} answered
-            </div>
 
             {currentQ < questions.length - 1 ? (
               <button

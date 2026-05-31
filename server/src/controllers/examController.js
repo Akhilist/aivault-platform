@@ -11,8 +11,17 @@ const getExams = async (req, res) => {
     }
 
     if (req.user.role === "student") {
-      filter.status = { $in: ["scheduled", "live", "closed"] }
-    }
+          filter.status = { $in: ["scheduled", "live", "closed"] }
+        }
+
+    if (req.user.role === "hod" || req.user.role === "exam_controller" || req.user.role === "institute_admin") {
+          // see all exams except pure drafts
+          filter.status = { $in: ["pending_approval", "approved", "scheduled", "live", "closed"] }
+        }
+
+        if (req.user.role === "exam_controller") {
+          filter.status = { $in: ["approved", "scheduled", "live", "closed"] }
+        }
 
     const exams = await Exam.find(filter)
       .populate("createdBy", "name email")
