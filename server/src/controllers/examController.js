@@ -18,6 +18,10 @@ const getExams = async (req, res) => {
           // see all exams except pure drafts
           filter.status = { $in: ["pending_approval", "approved", "scheduled", "live", "closed"] }
         }
+        
+        if (req.user.role === "institute_admin") {
+      filter.status = { $in: ["approved", "scheduled", "live", "closed"] }
+        }
 
         if (req.user.role === "exam_controller") {
           filter.status = { $in: ["approved", "scheduled", "live", "closed"] }

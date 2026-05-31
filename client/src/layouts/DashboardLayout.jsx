@@ -23,6 +23,7 @@ const NAV_ITEMS = {
     { icon: "ti-users",            label: "Staff",       path: "/staff" },
     { icon: "ti-report-analytics", label: "Analytics",   path: "/analytics" },
     { icon: "ti-settings",         label: "Settings",    path: "/settings" },
+    { icon: "ti-shield", label: "Security Audit", path: "/security" },
   ],
   hod: [
     { icon: "ti-layout-dashboard", label: "Dashboard",     path: "/dashboard/hod" },
@@ -40,6 +41,7 @@ const NAV_ITEMS = {
     { icon: "ti-file-text",        label: "Exams",      path: "/exams" },
     { icon: "ti-certificate",      label: "Results",    path: "/results" },
     { icon: "ti-settings",         label: "Settings",   path: "/settings" },
+    { icon: "ti-shield", label: "Security Audit", path: "/security" },
   ],
   teacher: [
     { icon: "ti-layout-dashboard", label: "Dashboard",      path: "/dashboard/teacher" },

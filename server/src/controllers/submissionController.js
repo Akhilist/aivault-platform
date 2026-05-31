@@ -43,6 +43,8 @@ const startExam = async (req, res) => {
       startTime: new Date(),
       status: "started",
       violations: 0,
+      deviceFingerprint: req.body.deviceFingerprint || null,
+      ipAddress: req.headers["x-forwarded-for"] || req.socket.remoteAddress || null,
     })
 
     res.status(201).json({ message: "Exam started", submission })

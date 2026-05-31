@@ -84,6 +84,14 @@ const submissionSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    deviceFingerprint: {
+      type: String,
+      default: null,
+    },
+    ipAddress: {
+      type: String,
+      default: null,
+    },
     startTime: {
       type: Date,
       default: null,

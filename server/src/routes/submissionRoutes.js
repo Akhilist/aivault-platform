@@ -39,7 +39,7 @@ router.post(
 router.get(
   "/exam/:examId",
   protect,
-  authorizeRoles("teacher", "hod", "exam_controller"),
+  authorizeRoles("teacher", "hod", "exam_controller", "institute_admin"),
   getExamSubmissions
 )
 

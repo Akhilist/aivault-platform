@@ -15,6 +15,7 @@ import TakeExam from "./pages/TakeExam"
 import CodeLab from "./pages/CodeLab"
 import GradingPanel from "./pages/GradingPanel"
 import RecordBook from "./pages/RecordBook"
+import SecurityAudit from "./pages/SecurityAudit"
 import VersionControl from "./pages/VersionControl"
 import AIAnalysis from "./pages/AIAnalysis"
 
@@ -106,6 +107,11 @@ function App() {
            <ProtectedRoute allowedRoles={["student", "teacher", "hod"]}>
             <RecordBook />
           </ProtectedRoute>
+} />
+          <Route path="/security" element={
+            <ProtectedRoute allowedRoles={["institute_admin", "hod", "exam_controller"]}>
+              <SecurityAudit />
+            </ProtectedRoute>
 } />
 
         </Routes>

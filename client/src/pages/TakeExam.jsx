@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import axios from "axios"
+import FingerprintJS from "@fingerprintjs/fingerprintjs"
 
 const API = "http://localhost:5000/api"
 
@@ -35,7 +36,15 @@ export default function TakeExam() {
         setExam(examRes.data.exam)
         setTimeLeft(examRes.data.exam.duration * 60)
 
-        const subRes = await axios.post(`${API}/submissions/start`, { examId }, { headers })
+    const fp = await FingerprintJS.load()
+    const fpResult = await fp.get()
+    const visitorId = fpResult.visitorId
+
+    const subRes = await axios.post(`${API}/submissions/start`, {
+      examId,
+      deviceFingerprint: visitorId,
+      ipAddress: null,
+    }, { headers })
         setSubmission(subRes.data.submission)
         submissionRef.current = subRes.data.submission
 
