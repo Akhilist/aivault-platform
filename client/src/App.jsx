@@ -13,11 +13,12 @@ import QuestionBank from "./pages/QuestionBank"
 import ExamManagement from "./pages/ExamManagement"
 import TakeExam from "./pages/TakeExam"
 import CodeLab from "./pages/CodeLab"
+import VersionControl from "./pages/VersionControl"
+import AIAnalysis from "./pages/AIAnalysis"
 import GradingPanel from "./pages/GradingPanel"
 import RecordBook from "./pages/RecordBook"
 import SecurityAudit from "./pages/SecurityAudit"
-import VersionControl from "./pages/VersionControl"
-import AIAnalysis from "./pages/AIAnalysis"
+import Analytics from "./pages/Analytics"
 
 function App() {
   return (
@@ -99,20 +100,28 @@ function App() {
           } />
 
           <Route path="/grading/:examId" element={
-           <ProtectedRoute allowedRoles={["teacher", "hod", "exam_controller"]}>
-            <GradingPanel />
-          </ProtectedRoute>
-} />
+            <ProtectedRoute allowedRoles={["teacher", "hod", "exam_controller"]}>
+              <GradingPanel />
+            </ProtectedRoute>
+          } />
+
           <Route path="/records" element={
-           <ProtectedRoute allowedRoles={["student", "teacher", "hod"]}>
-            <RecordBook />
-          </ProtectedRoute>
-} />
+            <ProtectedRoute allowedRoles={["student", "teacher", "hod"]}>
+              <RecordBook />
+            </ProtectedRoute>
+          } />
+
           <Route path="/security" element={
             <ProtectedRoute allowedRoles={["institute_admin", "hod", "exam_controller"]}>
               <SecurityAudit />
             </ProtectedRoute>
-} />
+          } />
+
+          <Route path="/analytics" element={
+            <ProtectedRoute allowedRoles={["teacher", "hod", "exam_controller", "institute_admin", "student"]}>
+              <Analytics />
+            </ProtectedRoute>
+          } />
 
         </Routes>
       </BrowserRouter>
