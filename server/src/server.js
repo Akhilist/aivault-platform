@@ -11,6 +11,7 @@ const commitRoutes = require("./routes/commitRoutes")
 const aiRoutes = require("./routes/aiRoutes")
 const submissionRoutes = require("./routes/submissionRoutes")
 const recordBookRoutes = require("./routes/recordBookRoutes")
+const feedbackRoutes = require("./routes/feedbackRoutes")
 
 dotenv.config()
 connectDB()
@@ -29,6 +30,7 @@ app.use("/api/commits", commitRoutes)
 app.use("/api/ai", aiRoutes)
 app.use("/api/submissions", submissionRoutes)
 app.use("/api/records", recordBookRoutes)
+app.use("/api/feedback", feedbackRoutes)
 
 app.get("/", (req, res) => {
   res.json({ message: "AIVault API Running" })

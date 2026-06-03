@@ -19,6 +19,7 @@ import GradingPanel from "./pages/GradingPanel"
 import RecordBook from "./pages/RecordBook"
 import SecurityAudit from "./pages/SecurityAudit"
 import Analytics from "./pages/Analytics"
+import FeedbackManagement from "./pages/FeedbackManagement"
 
 function App() {
   return (
@@ -122,6 +123,11 @@ function App() {
               <Analytics />
             </ProtectedRoute>
           } />
+          <Route path="/feedback" element={
+            <ProtectedRoute allowedRoles={["student", "teacher", "hod"]}>
+              <FeedbackManagement />
+            </ProtectedRoute>
+          } />         
 
         </Routes>
       </BrowserRouter>
