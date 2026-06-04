@@ -20,13 +20,16 @@ import RecordBook from "./pages/RecordBook"
 import SecurityAudit from "./pages/SecurityAudit"
 import Analytics from "./pages/Analytics"
 import FeedbackManagement from "./pages/FeedbackManagement"
+import LivePoll from "./pages/LivePoll"
+import Landing from "./pages/Landing"
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
 
           <Route path="/dashboard/superadmin" element={
             <ProtectedRoute allowedRoles={["super_admin"]}>
@@ -127,8 +130,12 @@ function App() {
             <ProtectedRoute allowedRoles={["student", "teacher", "hod"]}>
               <FeedbackManagement />
             </ProtectedRoute>
-          } />         
-
+          } />
+          <Route path="/poll" element={
+            <ProtectedRoute allowedRoles={["student", "teacher", "hod"]}>
+              <LivePoll />
+            </ProtectedRoute>
+} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

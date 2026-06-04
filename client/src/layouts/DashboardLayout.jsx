@@ -63,6 +63,7 @@ const NAV_ITEMS = {
     { icon: "ti-book",             label: "Record Book",     path: "/records" },
     { icon: "ti-chart-bar",        label: "My Results",      path: "/results" },
     { icon: "ti-message-circle",   label: "Feedback",        path: "/feedback" },
+    { icon: "ti-device-tv", label: "Live Poll", path: "/poll" },
   ],
 }
 
