@@ -86,9 +86,9 @@ export default function DashboardLayout({ children }) {
   const navItems = NAV_ITEMS[role] || []
 
   const handleLogout = () => {
-    logout()
-    navigate("/")
-  }
+      logout()
+      window.location.href = "/login"
+    }
 
   const initials = user?.name
     ?.split(" ")

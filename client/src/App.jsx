@@ -21,6 +21,7 @@ import SecurityAudit from "./pages/SecurityAudit"
 import Analytics from "./pages/Analytics"
 import FeedbackManagement from "./pages/FeedbackManagement"
 import LivePoll from "./pages/LivePoll"
+import Results from "./pages/Results"
 import Landing from "./pages/Landing"
 
 function App() {
@@ -135,7 +136,13 @@ function App() {
             <ProtectedRoute allowedRoles={["student", "teacher", "hod"]}>
               <LivePoll />
             </ProtectedRoute>
-} />
+          } />
+          <Route path="/results" element={
+          <ProtectedRoute allowedRoles={["student", "exam_controller"]}>
+            <Results />
+          </ProtectedRoute>
+          } />
+          
         </Routes>
       </BrowserRouter>
     </AuthProvider>
