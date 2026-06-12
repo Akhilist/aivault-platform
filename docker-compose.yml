@@ -14,8 +14,8 @@ services:
       - "5000:5000"
     environment:
       - MONGO_URI=mongodb://mongodb:27017/aivault_db
-      - JWT_SECRET=- JWT_SECRET=${JWT_SECRET}
-      - GROQ_API_KEY=- GROQ_API_KEY=${GROQ_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - GROQ_API_KEY=${GROQ_API_KEY}
     depends_on:
       - mongodb
 
