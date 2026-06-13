@@ -191,6 +191,56 @@ const deleteUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message })
   }
 }
+// Update own profile
+const updateProfile = async (req, res) => {
+  try {
+    const { name, department, batch, rollNumber } = req.body
+    const user = await User.findById(req.user.id)
+    if (!user) return res.status(404).json({ message: "User not found" })
+
+    if (name) user.name = name
+    if (department !== undefined) user.department = department
+    if (batch !== undefined) user.batch = batch
+    if (rollNumber !== undefined) user.rollNumber = rollNumber
+
+    await user.save()
+    res.json({
+      message: "Profile updated",
+      user: { _id: user._id, name: user.name, email: user.email, role: user.role, department: user.department, batch: user.batch, rollNumber: user.rollNumber }
+    })
+  } catch (error) {
+    console.error("updateProfile error:", error)
+    res.status(500).json({ message: "Server error", error: error.message })
+  }
+}
+
+// Change password
+const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "Current and new password are required" })
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: "New password must be at least 6 characters" })
+    }
+
+    const bcrypt = require("bcryptjs")
+    const user = await User.findById(req.user.id)
+    if (!user) return res.status(404).json({ message: "User not found" })
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password)
+    if (!isMatch) return res.status(400).json({ message: "Current password is incorrect" })
+
+    user.password = await bcrypt.hash(newPassword, 10)
+    await user.save()
+
+    res.json({ message: "Password changed successfully" })
+  } catch (error) {
+    console.error("changePassword error:", error)
+    res.status(500).json({ message: "Server error", error: error.message })
+  }
+}
 
 module.exports = { 
   registerUser, 
@@ -198,4 +248,6 @@ module.exports = {
   createUser,
   getManagedUsers,
   deleteUser, 
+  updateProfile,
+  changePassword,
 }

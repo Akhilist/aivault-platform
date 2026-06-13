@@ -23,6 +23,7 @@ import FeedbackManagement from "./pages/FeedbackManagement"
 import LivePoll from "./pages/LivePoll"
 import Results from "./pages/Results"
 import UserManagement from "./pages/UserManagement"
+import Settings from "./pages/Settings"
 import Landing from "./pages/Landing"
 
 function App() {
@@ -146,6 +147,11 @@ function App() {
           <Route path="/users" element={
             <ProtectedRoute allowedRoles={["institute_admin", "hod"]}>
               <UserManagement />
+            </ProtectedRoute>
+          } />
+          <Route path="/settings" element={
+            <ProtectedRoute allowedRoles={["super_admin", "institute_admin", "hod", "exam_controller", "teacher", "student"]}>
+              <Settings />
             </ProtectedRoute>
           } />
                     
