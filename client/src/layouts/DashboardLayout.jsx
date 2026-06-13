@@ -24,6 +24,7 @@ const NAV_ITEMS = {
     { icon: "ti-report-analytics", label: "Analytics",   path: "/analytics" },
     { icon: "ti-settings",         label: "Settings",    path: "/settings" },
     { icon: "ti-shield", label: "Security Audit", path: "/security" },
+    { icon: "ti-users-group", label: "Manage Staff", path: "/users" },
   ],
   hod: [
     { icon: "ti-layout-dashboard", label: "Dashboard",     path: "/dashboard/hod" },
@@ -34,6 +35,7 @@ const NAV_ITEMS = {
     { icon: "ti-book",             label: "Record Book",   path: "/records" },
     { icon: "ti-report-analytics", label: "Analytics",     path: "/analytics" },
     { icon: "ti-settings",         label: "Settings",      path: "/settings" },
+    { icon: "ti-users-group", label: "Manage People", path: "/users" },
   ],
   exam_controller: [
     { icon: "ti-layout-dashboard", label: "Dashboard",  path: "/dashboard/examcontroller" },
