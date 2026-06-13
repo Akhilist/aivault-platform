@@ -19,17 +19,17 @@ const NAV_ITEMS = {
   ],
   institute_admin: [
     { icon: "ti-layout-dashboard", label: "Dashboard",   path: "/dashboard/instituteadmin" },
-    { icon: "ti-building",         label: "Departments", path: "/departments" },
-    { icon: "ti-users",            label: "Staff",       path: "/staff" },
-    { icon: "ti-report-analytics", label: "Analytics",   path: "/analytics" },
+    /*{ icon: "ti-building",         label: "Departments", path: "/departments" },*/
+    /*{ icon: "ti-users",            label: "Staff",       path: "/staff" },*/
+    { icon: "ti-report-analytics", label: "Analytics",   path: "/analytics" },  
     { icon: "ti-settings",         label: "Settings",    path: "/settings" },
     { icon: "ti-shield", label: "Security Audit", path: "/security" },
     { icon: "ti-users-group", label: "Manage Staff", path: "/users" },
   ],
   hod: [
     { icon: "ti-layout-dashboard", label: "Dashboard",     path: "/dashboard/hod" },
-    { icon: "ti-users",            label: "Teachers",      path: "/teachers" },
-    { icon: "ti-school",           label: "Students",      path: "/students" },
+    /*{ icon: "ti-users",            label: "Teachers",      path: "/teachers" },*/
+    /*{ icon: "ti-school",           label: "Students",      path: "/students" },*/
     { icon: "ti-file-text",        label: "Exams",         path: "/exams" },
     { icon: "ti-database",         label: "Question Bank", path: "/questions" },
     { icon: "ti-book",             label: "Record Book",   path: "/records" },
