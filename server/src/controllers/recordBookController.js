@@ -79,6 +79,20 @@ const getAllRecords = async (req, res) => {
 }
 
 // Get single record
+//
+// Authorization: students may only read their OWN record. Staff roles
+// (teacher, hod, exam_controller, institute_admin, super_admin) may read any
+// record. Without this check, any authenticated student could read another
+// student's record (including signed lab work, code, and inline teacher
+// comments) by guessing or scanning `req.params.id` values — an IDOR.
+const STAFF_ROLES = new Set([
+  "teacher",
+  "hod",
+  "exam_controller",
+  "institute_admin",
+  "super_admin",
+])
+
 const getRecord = async (req, res) => {
   try {
     const record = await RecordBook.findById(req.params.id)
@@ -87,6 +101,17 @@ const getRecord = async (req, res) => {
       .populate("signature.signedBy", "name role")
 
     if (!record) return res.status(404).json({ message: "Record not found" })
+
+    // Students: only their own record. Staff: any record.
+    const isStaff = STAFF_ROLES.has(req.user.role)
+    const isOwner =
+      record.studentId &&
+      record.studentId._id &&
+      record.studentId._id.toString() === req.user.id
+    if (!isStaff && !isOwner) {
+      return res.status(403).json({ message: "Access denied" })
+    }
+
     res.json({ record })
   } catch (error) {
     console.error("getRecord error:", error)
