@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react"
 import { io } from "socket.io-client"
 import DashboardLayout from "../layouts/DashboardLayout"
 import { useAuth } from "../context/AuthContext"
+import { SOCKET_URL } from "../config/api"
 
-const SOCKET_URL = "http://localhost:5000"
 
 export default function LivePoll() {
   const { user } = useAuth()

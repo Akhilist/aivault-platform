@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import axios from "axios"
 import FingerprintJS from "@fingerprintjs/fingerprintjs"
+import { API } from "../config/api"
 
-const API = "http://localhost:5000/api"
 
 export default function TakeExam() {
   const { examId } = useParams()

@@ -14,8 +14,8 @@ import "@xyflow/react/dist/style.css"
 import DashboardLayout from "../layouts/DashboardLayout"
 import { useAuth } from "../context/AuthContext"
 import axios from "axios"
+import { API } from "../config/api"
 
-const API = "http://localhost:5000/api"
 
 const STAGES = ["algorithm", "flowchart", "code"]
 

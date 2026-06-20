@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom"
 import DashboardLayout from "../layouts/DashboardLayout"
 import { useAuth } from "../context/AuthContext"
 import axios from "axios"
+import { API } from "../config/api"
 
-const API = "http://localhost:5000/api"
 
 export default function GradingPanel() {
   const { examId } = useParams()

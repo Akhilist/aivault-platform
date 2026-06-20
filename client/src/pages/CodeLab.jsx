@@ -3,8 +3,8 @@ import Editor from "@monaco-editor/react"
 import DashboardLayout from "../layouts/DashboardLayout"
 import { useAuth } from "../context/AuthContext"
 import axios from "axios"
+import { API } from "../config/api"
 
-const API = "http://localhost:5000/api"
 
 const LANGUAGES = [
   { value: "python",     label: "Python 3",    monaco: "python" },

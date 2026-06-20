@@ -2,8 +2,8 @@ import { useState } from "react"
 import DashboardLayout from "../layouts/DashboardLayout"
 import { useAuth } from "../context/AuthContext"
 import axios from "axios"
+import { API } from "../config/api"
 
-const API = "http://localhost:5000/api"
 
 const DEPARTMENTS = ["Computer Science", "Information Technology", "Electronics", "Mechanical", "Administration", "Examination Cell"]
 const BATCHES = ["MCA-S1", "MCA-S2", "MCA-S3", "MSCS-S1", "MSCS-S2", "BCA-S4", "BCA-S5", "BCA-S6"]

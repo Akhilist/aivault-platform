@@ -2,13 +2,13 @@ import { useState, useEffect } from "react"
 import DashboardLayout from "../layouts/DashboardLayout"
 import { useAuth } from "../context/AuthContext"
 import axios from "axios"
+import { API } from "../config/api"
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, LineChart, Line,
   PieChart, Pie, Cell, Legend
 } from "recharts"
 
-const API = "http://localhost:5000/api"
 
 const COLORS = ["#185FA5", "#3B6D11", "#854F0B", "#534AB7", "#993C1D", "#085041"]
 

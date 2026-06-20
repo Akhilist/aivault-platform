@@ -4,8 +4,8 @@ import Editor from "@monaco-editor/react"
 import DashboardLayout from "../layouts/DashboardLayout"
 import { useAuth } from "../context/AuthContext"
 import axios from "axios"
+import { API } from "../config/api"
 
-const API = "http://localhost:5000/api"
 
 const STATUS_COLORS = {
   draft:        { bg: "#F1EFE8", color: "#5F5E5A", label: "Draft" },

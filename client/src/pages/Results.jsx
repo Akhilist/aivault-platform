@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 import DashboardLayout from "../layouts/DashboardLayout"
 import { useAuth } from "../context/AuthContext"
 import axios from "axios"
+import { API } from "../config/api"
 
-const API = "http://localhost:5000/api"
 
 export default function Results() {
   const { user, token } = useAuth()
