@@ -376,17 +376,6 @@ export default function ExamManagement() {
                     <button onClick={() => handleReject(exam._id)} style={btn("#FAECE7", "#993C1D")}>Reject</button>
                   </>
                 )}
-
-                {/* Exam Controller actions */}
-                {user?.role === "exam_controller" && exam.status === "approved" && (
-                  <button onClick={() => setScheduleId(exam._id)} style={btn("#E6F1FB", "#185FA5")}>Schedule</button>
-                )}
-                {user?.role === "exam_controller" && exam.status === "scheduled" && (
-                  <button onClick={() => handleGoLive(exam._id)} style={btn("#EAF3DE", "#3B6D11")}>Go Live</button>
-                )}
-                {user?.role === "exam_controller" && exam.status === "live" && (
-                  <button onClick={() => handleClose(exam._id)} style={btn("#FAECE7", "#993C1D")}>Close</button>
-                )}
               </div>
             </div>
           </div>

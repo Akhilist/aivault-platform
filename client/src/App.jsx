@@ -19,6 +19,7 @@ import GradingPanel from "./pages/GradingPanel"
 import RecordBook from "./pages/RecordBook"
 import SecurityAudit from "./pages/SecurityAudit"
 import Analytics from "./pages/Analytics"
+import Schedule from "./pages/Schedule"
 import FeedbackManagement from "./pages/FeedbackManagement"
 import LivePoll from "./pages/LivePoll"
 import Results from "./pages/Results"
@@ -152,6 +153,11 @@ function App() {
           <Route path="/settings" element={
             <ProtectedRoute allowedRoles={["super_admin", "institute_admin", "hod", "exam_controller", "teacher", "student"]}>
               <Settings />
+            </ProtectedRoute>
+          } />
+          <Route path="/schedule" element={
+            <ProtectedRoute allowedRoles={["exam_controller"]}>
+              <Schedule />
             </ProtectedRoute>
           } />
                     
