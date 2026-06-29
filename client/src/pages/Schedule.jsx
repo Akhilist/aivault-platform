@@ -50,7 +50,7 @@ export default function Schedule() {
 
   const handleGoLive = async (examId) => {
     try {
-      await axios.put(`${API}/exams/${examId}/golive`, {}, { headers })
+      await axios.put(`${API}/exams/${examId}/live`, {}, { headers })
       setSuccess("Exam is now live")
       await fetchExams()
       setTimeout(() => setSuccess(""), 3000)
